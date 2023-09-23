@@ -11,7 +11,7 @@ R3Vector radiusVector(R3Point const &);
 int main ()
 {
     double lat = 0., lon = 0., mlat = 0., mlon = 0.;
-    cout << "Insert latitude and longetude of the point and the map centre";
+    cout << "Insert latitude and longetude of the point and the map centre" << endl;
     cin >> lat >> lon >> mlat >> mlon;
     R3Point mCentre {mlat, mlon, 0};
     R3Point pGeo {lat, lon, 0};
@@ -35,7 +35,7 @@ int main ()
     double x = point_decart_vector * e_x;
     double y = point_decart_vector * e_y;
 
-    cout << "(" << x << ", " << y << ")";
+    cout << "(" << x << ", " << y << ")" << endl;
 
     return 0;
 }
