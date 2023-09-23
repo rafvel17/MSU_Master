@@ -1,11 +1,13 @@
-CC = g++ $(CFLAGS)
-CFLAGS = -g -O0 -Wall
+CC = g++ 
 
-graphtst: graphtst.cpp R2Graph.o R2Graph.h
-	$(CC) -o graphtst graphtst.cpp R2Graph.o
+main: triangle_heights.o
+	$(CC) triangle_heights.o -o main
 
-R2Graph.o: R2Graph.cpp R2Graph.h
-	$(CC) -c R2Graph.cpp
+triangle_heights.o: triangle_heights.cpp R2Graph.cpp 
+	$(CC) -c triangle_heights.cpp R2Graph.cpp
+
+run: 
+	./main
 
 clean:
-	rm -f *.o graphtst core*
+	rm -rf *.o main

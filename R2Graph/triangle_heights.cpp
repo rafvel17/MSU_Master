@@ -1,6 +1,5 @@
 #include <iostream>
 #include "R2Graph.h"
-#include <cmath>
 
 using namespace std;
 
@@ -13,6 +12,7 @@ int main ()
     cout << "Insert coordinates of the triangle" << endl;
     cin >> ax >> ay >> bx >> by >> cx >> cy;
 
+    //forming the triangle
     R2Point a{ax, ay}, b{bx, by}, c{cx, cy};
     R2Vector a_b{b.x - a.x, b.y - a.y};
     R2Vector b_c{c.x - b.x, c.y - b.y};
@@ -20,6 +20,7 @@ int main ()
 
     triangleCheck(a_b, b_c, c_a);
 
+    //vectors of the heights
     R2Vector b_h = c_a.normal();
     R2Vector a_k = b_c.normal();
     R2Point intersec{0.,0.};
