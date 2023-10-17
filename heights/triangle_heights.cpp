@@ -5,6 +5,7 @@ using namespace std;
 
 void systemSolver (R2Point p1, R2Vector v1, R2Point p2, R2Vector v2, R2Point &p);
 void triangleCheck (R2Vector const &v1, R2Vector const &v2, R2Vector const &v3);
+const double M_EPSILON = 1.0e-14;
 
 int main ()
 {
@@ -25,7 +26,9 @@ int main ()
     R2Vector a_k = b_c.normal();
     R2Point intersec{0.,0.};
 
-    systemSolver(b, b_h, a, a_k, intersec);
+    //systemSolver(b, b_h, a, a_k, intersec);
+
+    intersectStraightLines(b, b_h, a, a_k, intersec);
 
     cout << "The intersection point is (" << intersec.x << ", " << intersec.y << ")" << endl;
 
@@ -36,18 +39,18 @@ void systemSolver (R2Point p1, R2Vector v1, R2Point p2, R2Vector v2, R2Point &p)
 {
     double px = 0., py = 0.;
 
-    if ((v1.x == 0) && (v2.y == 0))
+    if ((fabs(v1.x) <= M_EPSILON) && (fabs(v2.y) <= M_EPSILON))
     {
         px = p1.x;
         py = p2.y;
     }
-    if ((v1.y == 0) && (v2.x == 0))
+    if ((fabs(v1.y) <= M_EPSILON) && (fabs(v2.x) <= M_EPSILON))
     {
         px = p2.x;
         py = p1.y;
     }
 
-    if ((v1.x != 0) && (v1.y != 0) && (v2.x != 0) && (v2.y != 0))
+    if ((fabs(v1.x) >= M_EPSILON) && (fabs(v1.y) >= M_EPSILON) && (fabs(v2.x) >= M_EPSILON) && (fabs(v2.y) >= M_EPSILON))
     {
         double k = v1.x * v2.y - v2.x * v1.y;
         py = v1.x * v2.y / k * p1.y + v1.y * v2.y / k * (p2.x - p1.x) - v1.y * v2.x / k * p2.y;
