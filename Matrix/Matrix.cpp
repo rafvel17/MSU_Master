@@ -42,6 +42,11 @@ std::vector<int> Matrix::Matrix::gauss()
 
 double Matrix::det(Matrix const &mat) 
 {
+    if(mat.get_columns_num() != mat.get_rows_num())
+    {
+        std::cerr << ("undefined operation, m must be equal to n");
+        exit(2);
+    }
     Matrix tmp(mat);
     double determinant = 1.0;
     std::vector<int> rk_even = tmp.gauss();
@@ -63,7 +68,16 @@ double Matrix::det(Matrix const &mat)
 
 Matrix::Matrix Matrix::Matrix::inv () const 
 {
+    if (m != n)
+    {
+        std::cerr << "undefined operation, m must be equal to n";
+    }
     Matrix tmp(m, n, elems);
+    if (fabs(det(tmp)) <= M_EPSILON)
+    {
+        std::cout << "The matrix is degenerate" << std::endl;
+        return *this; 
+    }
     std::vector<double> id_arr (m*n, 0.0);
     for (int i = 0; i < m; ++i)
     {
