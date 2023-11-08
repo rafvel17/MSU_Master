@@ -92,14 +92,14 @@ Matrix::Matrix Matrix::Matrix::inv () const
         }
         if (imax != i)
         {
-            tmp.swapRows(i, imax);
             id.swapRows(i, imax);
+            tmp.swapRows(i, imax);
         }
         double r = tmp.at(i, j);
         for (int k = i + 1; k < m; ++k)
         {
-            tmp.addRows(k, i, -tmp.at(k, j)/r);
             id.addRows(k, i, -tmp.at(k, j)/r);
+            tmp.addRows(k, i, -tmp.at(k, j)/r);
         }
         ++i;
         ++j;
@@ -133,10 +133,11 @@ void Matrix::Matrix::solve(const std::vector<double> &freeTerms, std::vector<dou
     Matrix ofFreeTerms (m, 1, freeTerms);
     std::vector<double> col (m, 0.0);
     Matrix solution (m, 1, col);
-    solution = inv() * ofFreeTerms;
+    Matrix reversed (inv());
+    solution = reversed * ofFreeTerms;
     for (int i = 0; i < m; ++i)
     {
-        x[i] = solution.at(i,1);
+        x.push_back(solution.at(i,0));
     }
 
 }

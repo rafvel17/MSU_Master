@@ -102,16 +102,16 @@ namespace Matrix
                 exit(1);
             }
              
-            std::vector<double> arr_temp(m*n, 0);
+            std::vector<double> arr_temp(m*t.get_columns_num(), 0);
             for (int i = 0; i < m; ++i)
             {
                 for (int j = 0; j < t.get_columns_num(); ++j)
                 {
                     for (int k = 0; k < n; ++k)
-                        arr_temp[i*n + j] += elems[i*n + k] * t.elems[k*n + j];
+                        arr_temp[i*t.get_columns_num() + j] += elems[i*n + k] * t.elems[k*t.get_columns_num() + j];
                 }
             }
-            return Matrix(n, m, arr_temp);
+            return Matrix(m, t.get_columns_num(), arr_temp);
         }
 
         void swapRows(int i, int j) 
