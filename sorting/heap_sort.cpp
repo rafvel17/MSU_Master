@@ -19,7 +19,7 @@ int main ()
     int it1 = 0;
     int it2 = 0;
     cin >> it1 >> it2;
-    heapSort(array, array.begin() + it1 - 1, array.begin() + it2 - 1);
+    heapSort(array, array.begin() + it1 - 1, array.begin() + it2 - 2);
     printArray(array);
     return 0;
 }
