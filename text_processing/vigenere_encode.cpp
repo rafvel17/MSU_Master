@@ -29,32 +29,77 @@ bool operator<(const unicodeString& s1, const unicodeString& s2);
 
 int main()
 {
-    std::string baseWord;
-    cout << "Choose a base word:" << endl; 
-    cin >> baseWord;
-    int baseWordLength = baseWord.length();
-    std::map<int,unicodeChar> baseRule;
-    for (int i = 0; i < baseWordLength; ++i)
+    map <unicodeChar,int> rusSymb_Ord;
+    for (int i = 1; i < 66; i+=2)
+    {
+        rusSymb_Ord[russianLetter(i)] = i/2;
+    }
+
+    // for (auto elem : rusSymb_Ord)
+    //     cout << elem.second << endl;
+    vector<int> s;
+    int l = 0;
+    cout << "Choose a base word:" << endl;
+    cin >> l;
+    while (l != -1)
+    {   
+        s.push_back(l);
+        cin >> l;
+    }
+    cout << s.size() << endl;
+    unicodeString baseWord;
+    for (int i = 0; i < s.size(); ++i)
+    {
+        baseWord[i] = russianLetter(s.at(i)*2+1);
+    }
+    
+    std::map<int,int> baseRule;
+    for (int i = 0; i < s.size(); ++i)
     {
         baseRule[i] = russianLetterOrder_NoCase(baseWord[i]);
     }
+     for (auto elem : baseRule)
+        cout << elem.second << endl;
 
-    fstream file;
-    file.open("text.txt", ios_base::in | ios_base::out);
+
+    ifstream infile ("text.txt");
+    ofstream outfile ("encoded_text.txt");
+    
+    for (auto elem : baseWord)
+        output_utf8(outfile, elem);
+
+
     int counter = 0;
-    char current;
-    while ((current = getchar()) != EOF)
+    //unicodeString current;
+
+    while (true)
     {
-        if (current == ' ')
-            counter = 0;
-        if (isRussianLetter(current))
+        bool readFails = false;
+        unicodeChar c;
+        // cin >> c; 
+        c = unicodeChar(get_utf8_code_point(infile, readFails));
+        if (readFails)
+            break;
+        if (isRussianLetter(c))
         {
-            current = lowerRussianLetter(russianLetterOrder_NoCase(current) + baseRule[counter % baseWordLength]);
-            putchar(current);//?????????????????????
+            //c = toLowerLetter(c);
+            int cOrd = russianLetterOrder_NoCase(c);
+            cOrd += baseRule[counter % s.size()];
+            cOrd%=33;
+            c = russianLetter(cOrd * 2 + 1);
             counter++;
+            output_utf8(outfile, c);
         }
+        else
+        {
+            output_utf8(outfile, c);
+            counter = 0;
+        }
+        
     }
-    file.close();
+
+    infile.close();
+    outfile.close();
 
 
 
