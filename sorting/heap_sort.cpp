@@ -7,7 +7,7 @@ void swap (vector<double>&, int, int);
 void heapify (vector<double>&, int, size_t);
 void maxHeapBuild (vector<double>&, size_t);
 void maxHeapify (vector<double>&, size_t);
-void heapSort (vector<double> &, vector<double>::iterator first, vector<double>::iterator last);
+void heapSort (vector<double>::iterator first, vector<double>::iterator last);
 vector<double> getArray ();
 void printArray (vector<double> const &); 
 
@@ -19,7 +19,7 @@ int main ()
     int it1 = 0;
     int it2 = 0;
     cin >> it1 >> it2;
-    heapSort(array, array.begin() + it1 - 1, array.begin() + it2 - 2);
+    heapSort(array.begin() + it1 - 1, array.begin() + it2 - 2);
     printArray(array);
     return 0;
 }
@@ -78,7 +78,7 @@ void maxHeapify(vector<double>& arr, size_t heapSize)
 }
 
 
-void heapSort(vector<double> & arr, vector<double>::iterator first, vector<double>::iterator last)
+void heapSort(vector<double>::iterator first, vector<double>::iterator last)
 {
     std::vector<double> v;
     for (int i = 0; i <= (last - first); ++i)
@@ -95,7 +95,7 @@ void heapSort(vector<double> & arr, vector<double>::iterator first, vector<doubl
     std::vector<double>::iterator iter = v.begin();
     for (int i = 0; i <= (last - first); ++i)
     {
-        arr[first-arr.begin() + i] = v.at(i);
+        *(first + i) = v.at(i);
     }
     
 }

@@ -178,14 +178,14 @@ void directSort(
     }
 }
 
-void heapSort(
-    vector<double>::iterator a,     // Beginning of array segment to sort
-    vector<double>::iterator last   // After-end of array segment to sort
-) {
-    //... to be implemented...
-    cout << "heapSort is not implemented yet..." << endl;
+// void heapSort(
+//     vector<double>::iterator a,     // Beginning of array segment to sort
+//     vector<double>::iterator last   // After-end of array segment to sort
+// ) {
+//     //... to be implemented...
+//     cout << "heapSort is not implemented yet..." << endl;
 
-}    
+// }    
     
 void bubbleDown(
     vector<double>::iterator a, // Beginning of array segment
@@ -255,4 +255,76 @@ void mergeSortBottomTop(
     //... to be implemented...
     cout << "mergeSortBottomTop is not implemented yet..." << endl;
 
+}
+
+void swap (vector<double>& arr, int i, int j)
+{
+    double tmp = arr.at(i);
+    arr[i] = arr.at(j);
+    arr[j] = tmp;
+} 
+
+void heapify (std::vector<double>& arr, int i, size_t heapSize)
+{
+    double max = arr.at(i);
+    if (2*i + 1 < heapSize)
+    {
+        double left = arr.at(2*i + 1);
+        if (2*i + 2 < heapSize)
+        {
+            double right = arr.at(2*i + 2);
+            if (max < left || max < right)
+            {
+                if (left <= right)
+                swap(arr, i, 2*i + 2);
+            else 
+                swap(arr, i, 2*i + 1);
+            }
+        }
+        else if (max < left)
+            {
+                swap(arr, i, 2*i + 1);
+            }
+    }
+    
+}
+
+void maxHeapBuild (std::vector<double>& arr, size_t heapSize)
+{
+    for (int i = heapSize / 2 - 1; i >= 0; --i)
+     	heapify(arr, i, heapSize);
+}
+
+void maxHeapify(vector<double>& arr, size_t heapSize)
+{
+    int i = 0;
+    do 
+    {
+        heapify(arr, i, heapSize);
+        i++;
+    }
+    while (2*i + 1 < heapSize);
+}
+
+
+void heapSort(vector<double>::iterator first, vector<double>::iterator last)
+{
+    std::vector<double> v;
+    for (int i = 0; i <= (last - first); ++i)
+        v.push_back(*(first + i));
+
+    size_t heapSize = v.size();
+    maxHeapBuild(v, heapSize);
+    while (heapSize > 1)
+    {
+	    swap(v, 0, heapSize - 1);
+	    heapSize--;
+	    maxHeapify(v, heapSize);
+    }
+    std::vector<double>::iterator iter = v.begin();
+    for (int i = 0; i <= (last - first); ++i)
+    {
+        *(first + i) = v.at(i);
+    }
+    
 }
