@@ -32,15 +32,13 @@ def convertq2s(q):
 def TonelliSh(n, p): 
 
     # Euler’s criterion
-    if (pow1(n, (p - 1) / 2, p) == (p - 1)):
-	    print("no sqrt possible\n") 
+    if (pow1(n, (p - 1) / 2, p) == (p - 1)): 
 	    return -1
 
-	
     ar = convertq2s(p - 1)
     q = ar[0] # the odd part
     s = ar[1] # the degree of 2
-
+    
     if (s == 1):
         return [pow1(n,int((p+1)/4),p), p - pow1(n,int((p+1)/4),p)]
 
@@ -75,7 +73,7 @@ n, p = map(lambda x : int(x), input().split())
 x = TonelliSh(n, p)
 
 if (x == -1): 
-	print("Modular square root is not exist\n") 
+	print("Modular square root does not exist\n") 
 else:
 	print("Modular square root of ", n, 
 		" in Z_", p, " is ", x, sep = '')
